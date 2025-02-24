@@ -1,4 +1,4 @@
 # Serverless-Project
 #This project setup OIDC and github actions for CICD
 
-updated secret
+updated secrets
