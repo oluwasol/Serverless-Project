@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "security_group" {
-    source = "./modules/security_group"
+    source = "../modules/security_group"
     vpc_id = var.vpc_id
     environment = var.environment
 }
