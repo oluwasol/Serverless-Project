@@ -5,5 +5,6 @@
 
 variable "environment" {
   description = "Environment name (dev , qut , prod)"
-  type = "dev"
+  type = string
+  default = "dev"
 }
