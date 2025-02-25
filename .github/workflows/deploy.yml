@@ -1,12 +1,11 @@
-name: Terraform Deployment (Development)
+
+
+name: Terraform Deploy
 
 on:
   push:
     branches:
-      - development   # Trigger on development branch
-  pull_request:
-    branches:
-      - development
+      - development  # Adjust to your target branch
 
 permissions:
   id-token: write
@@ -14,36 +13,31 @@ permissions:
 
 jobs:
   terraform:
-    name: Terraform Apply (Development)
     runs-on: ubuntu-latest
 
-    env:
-      AWS_REGION: us-east-1
-
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
-
-      - name: Configure AWS Credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v3
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN}}
-          aws-region: ${{ env.AWS_REGION }}
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.7.5
+          terraform_version: 1.5.0  # Use your required version
 
-      - name: Terraform Init
-        run: terraform init -backend-config=backend/backend-dev.tf
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-1  # Update to your region
 
-      - name: Terraform Format Check
-        run: terraform fmt -check
+      - name: Initialize Terraform
+        working-directory: ./Infra
+        run: terraform init
 
       - name: Terraform Plan
-        run: terraform plan -var-file=dev.tfvars
+        working-directory: ./Infra
+        run: terraform plan -var-file="dev.tfvars"
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/development'
-        run: terraform apply -auto-approve -var-file=dev.tfvars
+        working-directory: ./Infra
+        run: terraform apply -var-file="dev.tfvars" -auto-approve
