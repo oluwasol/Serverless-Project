@@ -1,6 +1,7 @@
 variable "environment" {
   description = "Environment (dev, qut, prod)"
   type        = string
+  default = "dev"
 }
 
 variable "vpc_id" {
