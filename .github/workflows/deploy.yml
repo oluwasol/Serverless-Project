@@ -3,7 +3,7 @@ name: Terraform Deploy
 on:
   push:
     branches:
-      - development  # Adjust to your target branch
+      - development  # Use your target branch
 
 permissions:
   id-token: write
@@ -26,7 +26,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: us-east-1  # Update to your region
+          aws-region: us-east-1  # Update if needed
 
       - name: Initialize Terraform
         working-directory: ./Infra
@@ -34,8 +34,8 @@ jobs:
 
       - name: Terraform Plan
         working-directory: ./Infra
-        run: terraform plan -var-file="dev.tfvars"
+        run: terraform plan
 
       - name: Terraform Apply
         working-directory: ./Infra
-        run: terraform apply -var-file="dev.tfvars" -auto-approve
+        run: terraform apply -auto-approve
