@@ -4,10 +4,10 @@ variable "environment" {
   default = "dev"
 }
 
-variable "vpc_id" {
-  description = "VPC ID for the environment"
-  type        = string
-}
+#variable "vpc_id" {
+ # description = "VPC ID for the environment"
+  #type        = string
+#}
 
 variable "alb_ports" {
   description = "ALB allowed ports"
